@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18bf41c9943574e49931913e2d0e4f75, type: 3}
+  m_Name: New Boy Data Collection SO
+  m_EditorClassIdentifier: 
+  boys:
+  - {fileID: 11400000, guid: f7a7891c04b15cc449f31d5fe871e99d, type: 2}
+  - {fileID: 11400000, guid: 18a51edb7e078a44eb8aa55ce17bf0b2, type: 2}
+  - {fileID: 11400000, guid: eb11ea590f6dd5e45bd319780d8cc45e, type: 2}

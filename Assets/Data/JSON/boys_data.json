@@ -1,0 +1,54 @@
+{
+  "boys": [
+    {
+      "id": "boy1",
+      "name": "Big Barry",
+      "description": "Barry's biceps are as big as his heart. He doesn't just lift weights, he lifts spirits. Every flex is a promise of victory.",
+      "skill": {
+        "name": "Flex of Power",
+        "effect": "Increases Power by 10% at the start of battle. 50% chance to attract next enemy attack."
+      },
+      "powerLevels": [ 10, 15, 22, 30, 40, 52, 65, 80, 100, 125 ]
+    },
+    {
+      "id": "boy2",
+      "name": "Rocky Ralph",
+      "description": "Ralph's fists hit harder than his killer one-liners. He’s a one-man rock band, and every punch is a solo.",
+      "skill": {
+        "name": "Heavy Metal Punch",
+        "effect": "30% chance to deal double damage."
+      },
+      "powerLevels": [ 12, 18, 26, 36, 48, 62, 78, 96, 120, 150 ]
+    },
+    {
+      "id": "boy3",
+      "name": "Gentle George",
+      "description": "Underneath his massive frame beats the heart of a poet. But don’t be fooled, when George gets serious, enemies feel every stanza.",
+      "skill": {
+        "name": "Poetic Justice",
+        "effect": "Heals 10% of damage dealt to himself or a random ally."
+      },
+      "powerLevels": [ 8, 12, 18, 26, 36, 48, 62, 78, 95, 115 ]
+    },
+    {
+      "id": "boy4",
+      "name": "Tough Tony",
+      "description": "Tony doesn't just fight; he outlasts. Every hit he takes only makes him stronger. He's the wall you didn’t know you needed.",
+      "skill": {
+        "name": "Iron Abs",
+        "effect": "Reduces all incoming damage by 20%."
+      },
+      "powerLevels": [ 14, 20, 28, 38, 50, 64, 80, 98, 120, 145 ]
+    },
+    {
+      "id": "boy5",
+      "name": "Slick Sam",
+      "description": "Sam’s quick on his feet and slick in his moves. His charm can disarm any foe, and his strikes leave a lasting impression.",
+      "skill": {
+        "name": "Shadow Strike",
+        "effect": "25% chance to hit a second random enemy for 50% damage."
+      },
+      "powerLevels": [ 9, 14, 21, 29, 39, 51, 65, 81, 100, 122 ]
+    }
+  ]
+}

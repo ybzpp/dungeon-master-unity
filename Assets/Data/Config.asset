@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 922340e422b74354fbfda633f2bfba21, type: 3}
+  m_Name: Config
+  m_EditorClassIdentifier: 
+  PartyCount: 5
+  MaxBoyInGym: 6
+  BoyDataCollection: {fileID: 11400000, guid: 33cd5d807bc8b8543a9c427f4c0ae631, type: 2}
+  DamagePrefab: {fileID: 6735630700217338229, guid: 19a00be56a0b41d42b4c63c00c68b8b5,
+    type: 3}
+  HealthPrefab: {fileID: -8672614992814849945, guid: ce3f5400e03cc864b846b1324281480d,
+    type: 3}
+  SelectPrefab: {fileID: 1075414746171751552, guid: c900c2de18406e34d865ebb643c3685a,
+    type: 3}
+  UiPrefab: {fileID: 468831436071138196, guid: e4b1377e5211f7245b130aa27211a8e8, type: 3}
+  LocationManagerPrefab: {fileID: 6051509104554544549, guid: 3b82a67ff719a4347a36841feb4424bd,
+    type: 3}
+  BattleManagerPrefab: {fileID: 7901618229527297991, guid: d3ffaaa6132907249b504e8b963edf34,
+    type: 3}
+  UnlockDataCollection: {fileID: 11400000, guid: f2c009717b93d0a4d896038bf2856f73,
+    type: 2}
+  StartUnlocks:
+  - boy1
+  ColorPalette: {fileID: 11400000, guid: 9fe6d2cca8d6ee14b91d6585dec916e4, type: 2}
+  StartRerollPrice: 10
+  StartRerollPriceStep: 10
+  DropMoneyMax: 10
+  DropMoneyMin: 1
