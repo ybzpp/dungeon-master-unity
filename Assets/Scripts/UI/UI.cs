@@ -34,11 +34,13 @@ namespace DungeonMaster
         public WinScreen Win;
 
         private List<IView> _screens;
+        private RuntimeData _runtimeData;
 
         public override void Init(Config config, RuntimeData runtimeData)
         {
             base.Init(config, runtimeData);
 
+            _runtimeData = runtimeData;
             _screens = new List<IView>
             {
                 Dungeon,
@@ -85,7 +87,7 @@ namespace DungeonMaster
                     Party.Show();
                     break;
                 case GameState.Dungeon:
-                    Dungeon.LevelImagesUpdate(GameHelper.RuntimeData.DungeonLevel);
+                    Dungeon.LevelImagesUpdate(_runtimeData.DungeonLevel);
                     Dungeon.Show();
                     Info.Show();
                     break;

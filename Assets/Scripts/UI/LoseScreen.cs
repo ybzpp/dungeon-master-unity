@@ -10,10 +10,11 @@ namespace DungeonMaster
         [SerializeField] private Button _respawnButton;
         [SerializeField] private Button _lobbyButton;
         [SerializeField] private TMP_Text _rewardText;
+        private RuntimeData _runtimeData;
 
         private void OnEnable()
         {
-            RewardTextUpdate(GameHelper.RuntimeData.Reward);
+            RewardTextUpdate(_runtimeData.Reward);
         }
 
         private void Start()
@@ -42,6 +43,12 @@ namespace DungeonMaster
         {
             GameHelper.ChangeGameState(GameState.Lobby);
             GameHelper.NewEntity.Get<DestroyAllBoysEvent>();
+        }
+
+        public override void Init(Config config, RuntimeData runtimeData)
+        {
+            base.Init(config, runtimeData);
+            _runtimeData = runtimeData;
         }
     }
 }

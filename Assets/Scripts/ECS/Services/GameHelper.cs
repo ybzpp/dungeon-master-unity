@@ -1,6 +1,5 @@
 ﻿using Leopotam.Ecs;
 using LeopotamGroup.Globals;
-using System;
 using UnityEngine;
 
 namespace DungeonMaster
@@ -9,9 +8,8 @@ namespace DungeonMaster
     {
         public static Config Config => Service<Config>.Get();
         public static SignalBus SignalBus => Service<SignalBus>.Get();
-        public static RuntimeData RuntimeData => Service<RuntimeData>.Get();
         public static EcsEntity NewEntity => Service<EcsWorld>.Get().NewEntity();
-        public static int RerollPrice => Config.StartRerollPrice + Config.StartRerollPriceStep * RuntimeData.RerollCount;
+        public static int RerollPrice => Config.StartRerollPrice + Config.StartRerollPriceStep * Service<RuntimeData>.Get().RerollCount;
 
         public static void ChangeGameState(GameState state)
         {
