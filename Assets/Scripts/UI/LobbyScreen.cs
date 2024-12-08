@@ -14,7 +14,7 @@ namespace DungeonMaster
 
         private void OnEnable()
         {
-            UpdateBoysCount(GameHelper.Boys.Count, GameHelper.Config.MaxPartySize);
+            UpdateBoysCount(BoysService.Boys.Count, GameHelper.Config.MaxPartySize);
         }
 
         private void Start()

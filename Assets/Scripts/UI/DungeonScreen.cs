@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Leopotam.Ecs;
 
 namespace DungeonMaster
 {
@@ -36,7 +37,7 @@ namespace DungeonMaster
 
         public void StartBattle()
         {
-            GameHelper.BattleManager.StartBattle();
+            GameHelper.NewEntity.Get<StartBattleEvent>();
             _startBattleButton.gameObject.SetActive(false);
         }
 

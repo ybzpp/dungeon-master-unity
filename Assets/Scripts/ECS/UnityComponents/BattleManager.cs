@@ -28,8 +28,8 @@ namespace DungeonMaster
         {
             _index = 0;
             _allBoys.Clear();
-            foreach (Boy boy in GameHelper.Boys) _allBoys.Add(boy);
-            foreach (Boy boy in GameHelper.BadBoys) _allBoys.Add(boy);
+            foreach (Boy boy in BoysService.Boys) _allBoys.Add(boy);
+            foreach (Boy boy in BoysService.BadBoys) _allBoys.Add(boy);
         }
 
         public void StartBattle()
@@ -57,7 +57,7 @@ namespace DungeonMaster
             var boy = _allBoys[_index % _allBoys.Count];
             boy.Entity.Get<SelectEvent>();
 
-            var boys = GameHelper.GetBoys(boy.IsParty);
+            var boys = BoysService.GetBoys(boy.IsParty);
             var useRandomSkill = true;
 
             var lowHpBoys = boys.Where(x => x.IsLowHp).ToList();

@@ -33,6 +33,7 @@ namespace DungeonMaster
                 .Add(new StartDungeonSystem()).OneFrame<StartDungeonEvent>()
                 .Add(new ResetProgressSystem()).OneFrame<ResetProgressEvent>()
                 .Add(new NextDungeonRoomSystem()).OneFrame<NextDungeonRoomEvent>()
+                .Add(new StartBattleSystem())
                 .Add(new CheckGameOverSystem())
                 .Add(new WinSystem()).OneFrame<WinEvent>()
                 .Add(new LoseSystem()).OneFrame<LoseEvent>()

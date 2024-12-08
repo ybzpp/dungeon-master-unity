@@ -6,21 +6,7 @@ namespace DungeonMaster
     {
         private void Start()
         {
-            switch (GameHelper.RuntimeData.GameState)
-            {
-                case GameState.Dungeon:
-                    var camera = GameHelper.LocationManager.Dungeon.Camera;
-                    transform.forward = camera.transform.forward;
-                    break;
-                case GameState.Start:
-                    break;
-                case GameState.Gym:
-                    break;
-                case GameState.Lobby:
-                    break;
-                case GameState.Shop:
-                    break;
-            }
+            transform.forward = Camera.main.transform.forward;
         }
     }
 }
