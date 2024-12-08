@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace DungeonMaster
 {
-    public class ElementUI : MonoBehaviour
+    public class ElementUI : MonoBehaviour, IView
     {
         public Action OnHide;
+        public virtual void Init(Config config, RuntimeData runtimeData) { }
         public virtual void Show()
         {
             gameObject.SetActive(true);
@@ -31,17 +33,38 @@ namespace DungeonMaster
         public LoseScreen Lose;
         public WinScreen Win;
 
+        private List<IView> _screens;
+
+        public override void Init(Config config, RuntimeData runtimeData)
+        {
+            base.Init(config, runtimeData);
+
+            _screens = new List<IView>
+            {
+                Dungeon,
+                Lobby,
+                Gym,
+                Info,
+                Party,
+                TransitionFade,
+                StartScreen,
+                Shop,
+                Lose,
+                Win
+            };
+
+            foreach (var screen in _screens)
+            {
+                screen.Init(config, runtimeData);
+            }
+        }
+
         public void CloseAll()
         {
-            Gym.Hide();
-            Lobby.Hide();
-            Dungeon.Hide();
-            Info.Hide();
-            Party.Hide();
-            StartScreen.Hide();
-            Shop.Hide();
-            Lose.Hide();
-            Win.Hide();
+            foreach (var screen in _screens)
+            {
+                screen.Hide();
+            }
         }
 
         public void ChangeGameState(GameState gameState)

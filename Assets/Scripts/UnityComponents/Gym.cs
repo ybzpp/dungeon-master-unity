@@ -1,12 +1,11 @@
 ﻿using Leopotam.Ecs;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 namespace DungeonMaster
 {
-    public class Gym : MonoBehaviour
+    public class Gym : LocationBase
     {
         public Transform RandomSpawnPoint => _spawnPoints[Random.Range(0, _spawnPoints.Length)];
         public int BoyInGymCount => Mathf.Clamp(Progress.DeathCount + 1, 1, _config.MaxBoyInGym);
@@ -16,13 +15,18 @@ namespace DungeonMaster
 
         private List<Transform> _spawnPointsList;
         private List<Boy> _boysList = new List<Boy>();
-        private Boy _boy;
-        private Config _config;
+        private Boy _tempBoy;
 
-        public void Init(Config config)
+        private Config _config;
+        private RuntimeData _runtimeData;
+
+        public override void Init(Config config, RuntimeData runtimeData)
         {
-            if (!Application.isPlaying) return;
+            if (!Application.isPlaying) 
+                return;
+
             _config = config;
+            _runtimeData = runtimeData;
 
             Clear();
 
@@ -84,7 +88,7 @@ namespace DungeonMaster
                     if (boy.IsParty)
                         return false;
 
-                    _boy = boy;
+                    _tempBoy = boy;
                     data = boy.Data;
                     return true;
                 }
@@ -95,16 +99,16 @@ namespace DungeonMaster
 
         public void AddBoyToParty()
         {
-            if (!_boy)
+            if (!_tempBoy)
             {
                 Debug.Log("boy not find!");
                 return;
             }
 
-            GameHelper.NewEntity.Get<AddBoyToPartyEvent>().Boy = _boy;
+            GameHelper.NewEntity.Get<AddBoyToPartyEvent>().Boy = _tempBoy;
 
-            _boysList.Remove(_boy);
-            _boy = null;
+            _boysList.Remove(_tempBoy);
+            _tempBoy = null;
         }
     }
 }

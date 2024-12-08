@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace DungeonMaster
 {
@@ -13,55 +14,51 @@ namespace DungeonMaster
         [SerializeField] private Lobby _lobby;
         [SerializeField] private Gym _gym;
         [SerializeField] private PartyView _party;
+
         private Config _config;
         private RuntimeData _runtimeData;
+
+        private readonly Dictionary<GameState, List<IView>> _stateToLocations = new();
 
         public void Init(Config config, RuntimeData runtimeData)
         {
             _config = config;
             _runtimeData = runtimeData;
+
+            _stateToLocations[GameState.Lobby] = new List<IView> { _lobby, _party };
+            _stateToLocations[GameState.Gym] = new List<IView> { _gym, _party };
+            _stateToLocations[GameState.Dungeon] = new List<IView> { _dungeon };
+            _stateToLocations[GameState.Shop] = new List<IView> { _lobby };
+            _stateToLocations[GameState.Lose] = new List<IView> { _dungeon };
+            _stateToLocations[GameState.Win] = new List<IView> { _dungeon };
         }
 
         public void CloseAll()
         {
-            _gym.gameObject.SetActive(false);
-            _lobby.gameObject.SetActive(false);
-            _dungeon.gameObject.SetActive(false);
-            _party.gameObject.SetActive(false);
+            foreach (var locations in _stateToLocations.Values)
+            {
+                foreach (var location in locations)
+                {
+                    location.Hide();
+                }
+            }
         }
 
         public void ChangeGameState(GameState gameState)
         {
             CloseAll();
-            switch (gameState)
+
+            if (_stateToLocations.TryGetValue(gameState, out var locations))
             {
-                case GameState.Start:
-                    break;
-                case GameState.Lobby:
-                    _lobby.gameObject.SetActive(true);
-                    _party.gameObject.SetActive(true);
-                    break;
-                case GameState.Gym:
-                    _gym.gameObject.SetActive(true);
-                    _party.gameObject.SetActive(true);
-                    _gym.Init(_config);
-                    break;
-                case GameState.Dungeon:
-                    _dungeon.gameObject.SetActive(true);
-                    if (Application.isPlaying) 
-                        _dungeon.Init(_runtimeData.DungeonLevel);
-                    break;
-                case GameState.Shop:
-                    _lobby.gameObject.SetActive(true);
-                    break;
-                case GameState.Lose:
-                    _dungeon.gameObject.SetActive(true);
-                    break;
-                case GameState.Win:
-                    _dungeon.gameObject.SetActive(true);
-                    break;
-                default:
-                    break;
+                foreach (var location in locations)
+                {
+                    location.Show();
+                    location.Init(_config, _runtimeData);
+                }
+            }
+            else
+            {
+                Debug.LogError($"No locations for game state: {gameState}");
             }
         }
     }

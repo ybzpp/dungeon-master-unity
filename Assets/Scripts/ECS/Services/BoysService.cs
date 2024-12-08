@@ -15,16 +15,16 @@ namespace DungeonMaster
             return isParty ? Boys : BadBoys;
         }
 
-        public static List<Boy> GetAliveBoys(bool isParty)
-        {
-            var boys = isParty ? Boys : BadBoys;
-            return boys.Where(boy => !boy.IsDead).ToList();
-        }
-
         public static Boy GetRandomBoy(bool isParty)
         {
             var boys = GetBoys(isParty);
             return boys[UnityEngine.Random.Range(0, boys.Count)];
+        }
+
+        public static List<Boy> GetAliveBoys(bool isParty)
+        {
+            var boys = isParty ? Boys : BadBoys;
+            return boys.Where(boy => !boy.IsDead).ToList();
         }
     }
 }

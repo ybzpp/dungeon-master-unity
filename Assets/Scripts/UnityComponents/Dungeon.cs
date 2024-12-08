@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace DungeonMaster
 {
-    public class Dungeon : MonoBehaviour
+    public class Dungeon : LocationBase
     {
         public CameraRig CameraRig => _cameraRig;
         public Camera Camera => _cameraRig.Camera;
@@ -21,6 +21,8 @@ namespace DungeonMaster
         [SerializeField] private CameraRig _cameraRig;
         [SerializeField] private Transform[] _boysPoints;
         [SerializeField] private Transform[] _badBoysPoints;
+        private RuntimeData _runtimeData;
+        private Config _config;
 
         private void OnEnable()
         {
@@ -29,9 +31,16 @@ namespace DungeonMaster
 
             foreach (Transform t in _badBoysPoints)
                 t.gameObject.SetActive(false);
+
         }
 
-        public void Init(int level)
+        public override void Init(Config config, RuntimeData runtimeData)
+        {
+            _config = config;
+            _runtimeData = runtimeData;
+        }
+
+        public void SpawnBadBoys(int level)
         {
             var badBoys = _data.GetDungeonLevelDataByLevel(level).BadBoys;
             for (int i = 0; i < badBoys.Length; i++)
@@ -40,7 +49,10 @@ namespace DungeonMaster
                 badBoy.Init(GameHelper.NewEntity);
                 _badBoys.Add(badBoy);
             }
+        }
 
+        public void UpdateBoys()
+        {
             for (int i = 0; i < Boys.Count; i++)
             {
                 _boys[i].transform.parent = null;
@@ -54,7 +66,7 @@ namespace DungeonMaster
         {
             _boys.Add(boy);
             OnChangedBoys?.Invoke(_boys);
-            OnChangedBoysCount?.Invoke(_boys.Count, GameHelper.Config.MaxPartySize);
+            OnChangedBoysCount?.Invoke(_boys.Count, _config.MaxPartySize);
         }
 
         public void RemoveBoy(Boy boy, bool isParty)
@@ -63,7 +75,7 @@ namespace DungeonMaster
             {
                 _boys.Remove(boy);
                 OnChangedBoys?.Invoke(Boys);
-                OnChangedBoysCount?.Invoke(_boys.Count, GameHelper.Config.MaxPartySize);
+                OnChangedBoysCount?.Invoke(_boys.Count, _config.MaxPartySize);
             }
             else
             {
@@ -73,27 +85,23 @@ namespace DungeonMaster
 
         public void DestroyAllBoys()
         {
-            if (_badBoys.Count > 0)
-            {
-                for (int i = 0; i < _badBoys.Count; i++)
-                {
-                    if (_badBoys[i])
-                        Destroy(_badBoys[i].gameObject);
-                }
-            }
-            _badBoys.Clear();
-
-            if (_boys.Count > 0)
-            {
-                for (int i = 0; i < _boys.Count; i++)
-                {
-                    if (_boys[i])
-                        Destroy(_boys[i].gameObject);
-                }
-            }
-            _boys.Clear();
+            DestroyBoys(_badBoys);
+            DestroyBoys(_boys);
             OnChangedBoys?.Invoke(_boys);
-            OnChangedBoysCount?.Invoke(_boys.Count, GameHelper.Config.MaxPartySize);
+            OnChangedBoysCount?.Invoke(_boys.Count, _config.MaxPartySize);
+        }
+
+        public void DestroyBoys(List<Boy> boys)
+        {
+            if (boys.Count > 0)
+            {
+                for (int i = 0; i < boys.Count; i++)
+                {
+                    if (boys[i])
+                        Destroy(boys[i].gameObject);
+                }
+            }
+            boys.Clear();
         }
 
         public GameStateResult CheckGameOver()
@@ -104,6 +112,5 @@ namespace DungeonMaster
             if (allBoysDead) return GameStateResult.Lose;
             return GameStateResult.Continue;
         }
-
     }
 }

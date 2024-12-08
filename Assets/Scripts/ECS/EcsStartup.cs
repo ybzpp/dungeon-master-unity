@@ -85,6 +85,7 @@ namespace DungeonMaster
             _runtimeData = new RuntimeData();
             _signalBus = new SignalBus();
             _locationManager.Init(_config, _runtimeData);
+            _ui.Init(_config, _runtimeData);
 
             Service<UI>.Set(_ui);
             Service<Config>.Set(_config);

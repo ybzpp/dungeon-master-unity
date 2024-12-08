@@ -12,9 +12,11 @@ namespace DungeonMaster
         [SerializeField] private Button _dungeonButton;
         [SerializeField] private Button _shopButton;
 
+        private Config _config;
+
         private void OnEnable()
         {
-            UpdateBoysCount(BoysService.Boys.Count, GameHelper.Config.MaxPartySize);
+            UpdateBoysCount(BoysService.Boys.Count, _config.MaxPartySize);
         }
 
         private void Start()
@@ -51,6 +53,12 @@ namespace DungeonMaster
         public void ShowDungeon()
         {
             GameHelper.NewEntity.Get<StartDungeonEvent>();
+        }
+
+        public override void Init(Config config, RuntimeData runtimeData)
+        {
+            base.Init(config, runtimeData);
+            _config = config;
         }
     }
 }

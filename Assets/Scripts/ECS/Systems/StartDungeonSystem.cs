@@ -14,6 +14,8 @@ namespace DungeonMaster
                 if (_locationManager.Dungeon.Boys.Count > 0)
                 {
                     _world.NewEntity().Get<ResetProgressEvent>();
+                    _locationManager.Dungeon.SpawnBadBoys(0);
+                    _locationManager.Dungeon.UpdateBoys();
                     GameHelper.ChangeGameState(GameState.Dungeon);
                 }
             }

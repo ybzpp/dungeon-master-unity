@@ -15,7 +15,8 @@ namespace DungeonMaster
             foreach (var item in _filter)
             {
                 _runtimeData.DungeonLevel++;
-                _locationManager.Dungeon.Init(_runtimeData.DungeonLevel);
+                _locationManager.Dungeon.SpawnBadBoys(_runtimeData.DungeonLevel);
+                _locationManager.Dungeon.UpdateBoys();
                 _ui.Dungeon.LevelImagesUpdate(_runtimeData.DungeonLevel);
                 _battleManager.StartBattle();
             }

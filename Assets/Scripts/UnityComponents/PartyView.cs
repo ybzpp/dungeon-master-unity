@@ -2,7 +2,7 @@
 
 namespace DungeonMaster
 {
-    public class PartyView : MonoBehaviour 
+    public class PartyView : LocationBase 
     {
         [SerializeField] private Transform[] _spawnPoints;
 

@@ -32,6 +32,11 @@ namespace DungeonMaster
         {
             _currentHp = Mathf.Clamp(_currentHp + value, 0, _maxHp);
         }
+
+        public float GetHealthPercent()
+        {
+            return (float)_currentHp / _maxHp;
+        }
     }
 }
 
