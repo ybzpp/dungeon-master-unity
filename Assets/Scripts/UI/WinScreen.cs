@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Leopotam.Ecs;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,7 +35,7 @@ namespace DungeonMaster
 
         public void Next()
         {
-            GameHelper.NextDungeonRoom();
+            GameHelper.NewEntity.Get<ContinueDungeonEvent>();
             GameHelper.ChangeGameState(GameState.Dungeon);
         }
 

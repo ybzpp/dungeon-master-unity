@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Leopotam.Ecs;
+using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 namespace DungeonMaster
@@ -7,7 +9,7 @@ namespace DungeonMaster
     public class Gym : MonoBehaviour
     {
         public Transform RandomSpawnPoint => _spawnPoints[Random.Range(0, _spawnPoints.Length)];
-
+        public int BoyInGymCount => Mathf.Clamp(Progress.DeathCount + 1, 1, _config.MaxBoyInGym);
         public Camera Camera => _camera;
         [SerializeField] private Camera _camera;
         [SerializeField] private Transform[] _spawnPoints;
@@ -15,18 +17,19 @@ namespace DungeonMaster
         private List<Transform> _spawnPointsList;
         private List<Boy> _boysList = new List<Boy>();
         private Boy _boy;
+        private Config _config;
 
-        public void Init()
+        public void Init(Config config)
         {
             if (!Application.isPlaying) return;
-            
+            _config = config;
 
             Clear();
 
             _spawnPointsList = _spawnPoints.ToList();
-            for (int i = 0; i < GameHelper.BoyInGymCount; i++)
+            for (int i = 0; i < BoyInGymCount; i++)
             {
-                var boyPrefab = GameHelper.Config.BoyDataCollection.randomData.Prefab;
+                var boyPrefab = _config.BoyDataCollection.randomData.Prefab;
                 var point = GetPoint();
                 var boy = Instantiate(boyPrefab, point.position, point.rotation);
                 boy.Init(GameHelper.NewEntity);
@@ -98,7 +101,8 @@ namespace DungeonMaster
                 return;
             }
 
-            GameHelper.AddBoyToParty(_boy);
+            GameHelper.NewEntity.Get<AddBoyToPartyEvent>().Boy = _boy;
+
             _boysList.Remove(_boy);
             _boy = null;
         }

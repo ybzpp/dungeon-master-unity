@@ -62,7 +62,7 @@ namespace DungeonMaster
                     Party.Show();
                     break;
                 case GameState.Dungeon:
-                    Dungeon.LevelImagesUpdate(GameHelper.Level);
+                    Dungeon.LevelImagesUpdate(GameHelper.RuntimeData.DungeonLevel);
                     Dungeon.Show();
                     Info.Show();
                     break;

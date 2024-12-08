@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Leopotam.Ecs;
 
 namespace DungeonMaster
 {
@@ -13,8 +14,7 @@ namespace DungeonMaster
 
         private void OnEnable()
         {
-            var boysCount = GameHelper.BoysCount;
-            UpdateBoysCount(boysCount.x, boysCount.y);
+            UpdateBoysCount(GameHelper.Boys.Count, GameHelper.Config.MaxPartySize);
         }
 
         private void Start()
@@ -50,7 +50,7 @@ namespace DungeonMaster
 
         public void ShowDungeon()
         {
-            GameHelper.StartDungeon();
+            GameHelper.NewEntity.Get<StartDungeonEvent>();
         }
     }
 }

@@ -18,11 +18,10 @@ namespace DungeonMaster
                     _config.StartRerollPrice + 
                     _config.StartRerollPriceStep * _runtimeData.RerollCount;
 
-                if (GameHelper.CanBuy(price))
+                if (GameHelper.TryBuy(price))
                 {
-                    GameHelper.Buy(price);
                     _runtimeData.RerollCount++;
-                    _locationManager.Gym.Init();
+                    _locationManager.Gym.Init(_config);
                     _signalBus.OnChangeRerollPrice?.Invoke(price);
                 }
 

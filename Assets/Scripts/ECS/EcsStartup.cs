@@ -33,8 +33,13 @@ namespace DungeonMaster
                 .Add(new StartDungeonSystem()).OneFrame<StartDungeonEvent>()
                 .Add(new ResetProgressSystem()).OneFrame<ResetProgressEvent>()
                 .Add(new NextDungeonRoomSystem()).OneFrame<NextDungeonRoomEvent>()
+                .Add(new CheckGameOverSystem())
+                .Add(new WinSystem()).OneFrame<WinEvent>()
+                .Add(new LoseSystem()).OneFrame<LoseEvent>()
+                .Add(new ContinueDungeonSystem()).OneFrame<ContinueDungeonEvent>()
                 .Add(new ChangeGameStateSystem()).OneFrame<ChangeGameStateEvent>()
                 .Add(new ShowBoyBuyPopupSystem())
+                .Add(new AddBoyToPartySystem())
                 .Add(new BoyBuySystem())
                 .Add(new RerollSystem())
                 .Add(new DamageSystem()).OneFrame<DamageEvent>()
@@ -78,6 +83,7 @@ namespace DungeonMaster
 
             _runtimeData = new RuntimeData();
             _signalBus = new SignalBus();
+            _locationManager.Init(_config, _runtimeData);
 
             Service<UI>.Set(_ui);
             Service<Config>.Set(_config);

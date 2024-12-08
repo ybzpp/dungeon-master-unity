@@ -14,7 +14,7 @@ namespace DungeonMaster
         {
             base.StartSkill();
 
-            var boys = GameHelper.GetPartyBoys(Root.IsParty);
+            var boys = GameHelper.GetBoys(Root.IsParty);
             boys = boys.Where(x => !x.IsFullHp).ToList();
             if (boys.Count > 0)
             {

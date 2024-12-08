@@ -35,9 +35,8 @@ namespace DungeonMaster
         public void Unlock()
         {
             var price = UnlockerService.UnlockPrice;
-            if (GameHelper.CanBuy(price))
+            if (GameHelper.TryBuy(price))
             {
-                GameHelper.Buy(price);
                 Progress.Unlock(_id);
                 gameObject.SetActive(false);
                 GameHelper.SignalBus.OnChangeUnlockPrice?.Invoke();

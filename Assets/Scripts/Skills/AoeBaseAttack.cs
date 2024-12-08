@@ -18,7 +18,7 @@ namespace DungeonMaster
         public override void StartSkill()
         {
             base.StartSkill();
-            _targetBoys = GameHelper.GetPartyBoys(!Root.IsParty);
+            _targetBoys = GameHelper.GetBoys(!Root.IsParty);
             StartCoroutine(SkillAnimation());
         }
 

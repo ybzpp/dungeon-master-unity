@@ -1,5 +1,4 @@
 ﻿using Leopotam.Ecs;
-using UnityEngine;
 
 namespace DungeonMaster
 {
@@ -18,8 +17,7 @@ namespace DungeonMaster
                 _runtimeData.DungeonLevel++;
                 _locationManager.Dungeon.Init(_runtimeData.DungeonLevel);
                 _ui.Dungeon.LevelImagesUpdate(_runtimeData.DungeonLevel);
-
-                _battleManager.StartBattle(); //TODO: add waiter;
+                _battleManager.StartBattle();
             }
         }
     }

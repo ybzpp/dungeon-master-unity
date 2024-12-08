@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using UnityEngine;
+using System.Linq;
 
 namespace DungeonMaster
 {
@@ -53,7 +54,7 @@ namespace DungeonMaster
         {
             _boys.Add(boy);
             OnChangedBoys?.Invoke(_boys);
-            OnChangedBoysCount?.Invoke(_boys.Count, GameHelper.Config.PartyCount);
+            OnChangedBoysCount?.Invoke(_boys.Count, GameHelper.Config.MaxPartySize);
         }
 
         public void RemoveBoy(Boy boy, bool isParty)
@@ -62,7 +63,7 @@ namespace DungeonMaster
             {
                 _boys.Remove(boy);
                 OnChangedBoys?.Invoke(Boys);
-                OnChangedBoysCount?.Invoke(_boys.Count, GameHelper.Config.PartyCount);
+                OnChangedBoysCount?.Invoke(_boys.Count, GameHelper.Config.MaxPartySize);
             }
             else
             {
@@ -92,7 +93,17 @@ namespace DungeonMaster
             }
             _boys.Clear();
             OnChangedBoys?.Invoke(_boys);
-            OnChangedBoysCount?.Invoke(_boys.Count, GameHelper.Config.PartyCount);
+            OnChangedBoysCount?.Invoke(_boys.Count, GameHelper.Config.MaxPartySize);
         }
+
+        public GameStateResult CheckGameOver()
+        {
+            bool allBadBoysDead = !BadBoys.Any(x => !x.IsDead);
+            bool allBoysDead = !Boys.Any(x => !x.IsDead);
+            if (allBadBoysDead) return GameStateResult.Win;
+            if (allBoysDead) return GameStateResult.Lose;
+            return GameStateResult.Continue;
+        }
+
     }
 }

@@ -14,12 +14,11 @@ namespace DungeonMaster
             foreach (var item in _filter)
             {
                 var price = _filter.Get1(item).Price;
-                if (_locationManager.Dungeon.Boys.Count < _config.PartyCount)
+                if (_locationManager.Dungeon.Boys.Count < _config.MaxPartySize)
                 {
-                    if (GameHelper.CanBuy(price))
+                    if (GameHelper.TryBuy(price))
                     {
-                        GameHelper.Buy(price);
-                        GameHelper.Gym.AddBoyToParty();
+                        _locationManager.Gym.AddBoyToParty();
                         _filter.Get1(item).Popup.Hide();
                     }
                 }

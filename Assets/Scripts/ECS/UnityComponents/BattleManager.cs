@@ -9,20 +9,21 @@ namespace DungeonMaster
     public class BattleManager : MonoBehaviour
     {
         [SerializeField] private float _startBattleDelay = 1f;
-        [SerializeField] private float _nextAttackDelay = 1f;
+        [SerializeField] private float _continueDungeonDelay = 1f;
 
         private List<Boy> _allBoys = new List<Boy>();
         private int _index;
 
         private void Start()
         {
-            GameHelper.SignalBus.OnSkillComplete += Next;
+            GameHelper.SignalBus.OnSkillComplete += SkillComplete;
         }
 
         private void OnDestroy()
         {
-            GameHelper.SignalBus.OnSkillComplete -= Next;
+            GameHelper.SignalBus.OnSkillComplete -= SkillComplete;
         }
+
         public void Init()
         {
             _index = 0;
@@ -56,7 +57,7 @@ namespace DungeonMaster
             var boy = _allBoys[_index % _allBoys.Count];
             boy.Entity.Get<SelectEvent>();
 
-            var boys = GameHelper.GetPartyBoys(boy.IsParty);
+            var boys = GameHelper.GetBoys(boy.IsParty);
             var useRandomSkill = true;
 
             var lowHpBoys = boys.Where(x => x.IsLowHp).ToList();
@@ -86,41 +87,26 @@ namespace DungeonMaster
             _index++;
         }
 
-        public void Win()
+        public void SkillComplete()
         {
-            StartCoroutine(WinCoroutine());
+            GameHelper.NewEntity.Get<CheckGameOverEvent>();
         }
 
-        public IEnumerator WinCoroutine()
+        public void ContinueDungeon()
         {
-            foreach (var boy in GameHelper.Boys)
-            {
-                boy.Animator.SetTrigger("Dance");
-                boy.Animator.SetBool("Dancing", true);
-            }
-            GameHelper.Dungeon.CameraRig.SelectPosition("Dance");
-
-            yield return new WaitForSeconds(5f);
-
-            foreach (var boy in GameHelper.Boys) boy.Animator.SetBool("Dancing", false);
-            GameHelper.Dungeon.CameraRig.SelectPosition("Base");
+            StartCoroutine(ContinueDungeonCoroutine());
         }
 
-        public void Next()
+        public IEnumerator ContinueDungeonCoroutine()
         {
-            StartCoroutine(NextAttackCoroutine());
+            yield return new WaitForSeconds(_continueDungeonDelay);
+            ContinueBattle();
         }
 
-        public IEnumerator NextAttackCoroutine()
+        public void ContinueBattle()
         {
-            if (!GameHelper.IsGameOver())
-            {
-                yield return new WaitForSeconds(_nextAttackDelay);
-
-                _allBoys = _allBoys.Where(x => !x.IsDead).ToList();
-                BattleLogic();
-                GameHelper.SignalBus.OnNext?.Invoke();
-            }
+            _allBoys = _allBoys.Where(x => !x.IsDead).ToList();
+            BattleLogic();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace DungeonMaster
         public override void StartSkill()
         {
             base.StartSkill();
-            _targetBoy = GameHelper.GetRandomPartyBoy(!Root.IsParty);
+            _targetBoy = GameHelper.GetRandomBoy(!Root.IsParty);
             _startRotation = Root.transform.eulerAngles;
             StartCoroutine(SkillAnimation());
         }

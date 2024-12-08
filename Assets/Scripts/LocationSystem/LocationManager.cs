@@ -13,6 +13,14 @@ namespace DungeonMaster
         [SerializeField] private Lobby _lobby;
         [SerializeField] private Gym _gym;
         [SerializeField] private PartyView _party;
+        private Config _config;
+        private RuntimeData _runtimeData;
+
+        public void Init(Config config, RuntimeData runtimeData)
+        {
+            _config = config;
+            _runtimeData = runtimeData;
+        }
 
         public void CloseAll()
         {
@@ -36,12 +44,12 @@ namespace DungeonMaster
                 case GameState.Gym:
                     _gym.gameObject.SetActive(true);
                     _party.gameObject.SetActive(true);
-                    _gym.Init();
+                    _gym.Init(_config);
                     break;
                 case GameState.Dungeon:
                     _dungeon.gameObject.SetActive(true);
                     if (Application.isPlaying) 
-                        _dungeon.Init(GameHelper.RuntimeData.DungeonLevel);
+                        _dungeon.Init(_runtimeData.DungeonLevel);
                     break;
                 case GameState.Shop:
                     _lobby.gameObject.SetActive(true);
