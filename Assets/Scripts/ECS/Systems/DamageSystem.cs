@@ -1,4 +1,6 @@
 ﻿using Leopotam.Ecs;
+using LeopotamGroup.Globals;
+using UnityEngine;
 
 namespace DungeonMaster
 {
@@ -7,6 +9,7 @@ namespace DungeonMaster
         private EcsFilter<HealthComponent, DamageEvent> _filter;
         private EcsFilter<BoyRef, DamageEvent> _boyFilter;
         private EcsFilter<DamageEvent> _damageFilter;
+        private LocationManager _locationManager;
 
         public void Run()
         {
@@ -22,7 +25,17 @@ namespace DungeonMaster
 
             foreach (var item in _damageFilter)
             {
-                GameHelper.DamageFx(_boyFilter.Get2(item).Value, _boyFilter.Get2(item).Position);
+                var pos = _boyFilter.Get2(item).Position;
+                var damage = _boyFilter.Get2(item).Value;
+                var view = Service<ObjectPoolController>.Get()
+                    .SpawnFromPool("DamageFx", pos, Quaternion.identity)
+                    .GetComponent<DamageView>();
+
+                if (view)
+                {
+                    var dir = _locationManager.Dungeon.Camera.transform.forward;
+                    view.Init(damage, dir);
+                }
             }
         }
     }

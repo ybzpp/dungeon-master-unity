@@ -26,6 +26,8 @@ MonoBehaviour:
     type: 3}
   BattleManagerPrefab: {fileID: 7901618229527297991, guid: d3ffaaa6132907249b504e8b963edf34,
     type: 3}
+  ObjectPoolPrefab: {fileID: 9111188252581128969, guid: 27cdc162167716d4b9cb70f2cf3b27ea,
+    type: 3}
   UnlockDataCollection: {fileID: 11400000, guid: f2c009717b93d0a4d896038bf2856f73,
     type: 2}
   StartUnlocks:

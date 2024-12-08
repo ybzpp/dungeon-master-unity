@@ -12,6 +12,7 @@ namespace DungeonMaster
         [SerializeField] private RuntimeData _runtimeData;
         [SerializeField] private SignalBus _signalBus;
         [SerializeField] private UI _ui;
+        [SerializeField] private ObjectPoolController _objectPool;
 
         private EcsWorld _world;
         private EcsSystems _systems;
@@ -49,6 +50,7 @@ namespace DungeonMaster
                 .Inject(_locationManager)
                 .Inject(_battleManager)
                 .Inject(_runtimeData)
+                .Inject(_objectPool)
                 .Inject(_signalBus)
                 .Inject(_ui)
                 .Init();
@@ -84,6 +86,7 @@ namespace DungeonMaster
             Service<LocationManager>.Set(_locationManager);
             Service<RuntimeData>.Set(_runtimeData);
             Service<SignalBus>.Set(_signalBus);
+            Service<ObjectPoolController>.Set(_objectPool);
         }
 
         public void FindRefs()
@@ -104,6 +107,12 @@ namespace DungeonMaster
             {
                 _battleManager = FindAnyObjectByType<BattleManager>();
                 if (_battleManager == null) _battleManager = Instantiate(_config.BattleManagerPrefab);
+            }
+
+            if (_objectPool == null)
+            {
+                _objectPool = FindAnyObjectByType<ObjectPoolController>();
+                if (_objectPool == null) _objectPool = Instantiate(_config.ObjectPoolPrefab);
             }
         }
     }

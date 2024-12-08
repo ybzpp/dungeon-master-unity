@@ -20,6 +20,7 @@ namespace DungeonMaster
         public UI UiPrefab;
         public LocationManager LocationManagerPrefab;
         public BattleManager BattleManagerPrefab;
+        public ObjectPoolController ObjectPoolPrefab;
 
         [Header("Unlock")]
         public UnlockDataCollection UnlockDataCollection;
