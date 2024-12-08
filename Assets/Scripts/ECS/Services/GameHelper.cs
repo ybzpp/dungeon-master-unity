@@ -24,11 +24,10 @@ namespace DungeonMaster
         public static Boy RandomBoy => Boys[Random.Range(0, Boys.Count)];
         public static Boy RandomBadBoy => BadBoys[Random.Range(0, BadBoys.Count)];
         public static Vector2Int BoysCount => new Vector2Int(Boys.Count, Config.PartyCount);
-        public static int BoyInGymCount => Mathf.Clamp(Progress.DeathCount + 1, 1, Config.MaxBoyInGym);
+        public static int BoyInGymCount => Mathf.Clamp(Progress.DeathCount++, 1, Config.MaxBoyInGym);
         public static bool IsInit => World != null && World.IsAlive();
         public static int Level => RuntimeData.DungeonLevel;
         public static int RerollPrice => Config.StartRerollPrice + Config.StartRerollPriceStep * RuntimeData.RerollCount;
-        public static int UnlockPrice => UnlockerService.GetUnlockPrice();
 
         public static void ChangeGameState(GameState state)
         {
@@ -54,14 +53,14 @@ namespace DungeonMaster
 
         public static void Win()
         {
-            //if (Level != 0 && Level % 9 == 0)
-            //{
-            //    BattleManager.Win();
-            //    Progress.Money += RuntimeData.Reward.Coins;
-            //    Progress.ClickerExp += RuntimeData.Reward.Exp;
-            //    ChangeGameState(GameState.Win);
-            //}
-            //else
+            if (Level != 0 && Level % 9 == 0)
+            {
+                BattleManager.Win();
+                Progress.Money += RuntimeData.Reward.Coins;
+                Progress.ClickerExp += RuntimeData.Reward.Exp;
+                ChangeGameState(GameState.Win);
+            }
+            else
             {
                 NextDungeonRoom();
             }
@@ -93,40 +92,57 @@ namespace DungeonMaster
             return isParty ? RandomBoy : RandomBadBoy;
         }
 
-        public static bool IsGameOver()
+        public enum GameStateResult
         {
-            if (BadBoys.Where(x => !x.IsDead).Count() == 0)
-            {
-                Win();
-                return true;
-            }
-            else if (Boys.Where(x => !x.IsDead).Count() == 0)
-            {
-                Lose();
-                return true;
-            }
-            return false;
+            Continue,
+            Win,
+            Lose
         }
 
-        public static bool TryBuy(int value)
+        public static GameStateResult CheckGameOver()
         {
-            if (value > Progress.Money) return false;
+            if (BadBoys.All(x => x.IsDead))
+            {
+                return GameStateResult.Win;
+            }
+            else if (Boys.All(x => x.IsDead))
+            {
+                return GameStateResult.Lose;
+            }
+            return GameStateResult.Continue;
+        }
+
+        public static bool IsGameOver()
+        {
+            var result = CheckGameOver();
+
+            switch (result)
+            {
+                case GameStateResult.Win:
+                    //Win();
+                    NextDungeonRoom();
+                    return true;
+                case GameStateResult.Lose:
+                    Lose();
+                    return true;
+                case GameStateResult.Continue:
+                default:
+                    return false;
+            }
+        }
+
+        public static void Buy(int value)
+        {
+            if (value > Progress.Money) return;
             Progress.Money -= value;
-            return true;
         }
 
         public static bool CanBuy(int value)
         {
-            if (value > Progress.Money) return false;
-            return true;
-        }
+            if (value > Progress.Money) 
+                return false;
 
-        public static void DamageFx(int damage, Vector3 pos)
-        {
-            //TODO: edit to object pool
-            var prefab = Service<Config>.Get().DamagePrefab;
-            var view = Object.Instantiate(prefab, pos, Quaternion.identity);
-            view.Init(damage);
+            return true;
         }
     }
 }

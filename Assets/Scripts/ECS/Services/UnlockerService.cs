@@ -19,6 +19,7 @@ namespace DungeonMaster
             return list;
         }
 
+        public static int UnlockPrice => GetUnlockPrice();
         public static int GetUnlockPrice()
         {
             var collection = GameHelper.Config.UnlockDataCollection;

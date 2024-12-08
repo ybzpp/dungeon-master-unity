@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
+using DungeonMaster;
 
 namespace DungeonMaster
 {
@@ -33,8 +34,10 @@ namespace DungeonMaster
 
         public void Unlock()
         {
-            if (GameHelper.TryBuy(GameHelper.UnlockPrice))
+            var price = UnlockerService.UnlockPrice;
+            if (GameHelper.CanBuy(price))
             {
+                GameHelper.Buy(price);
                 Progress.Unlock(_id);
                 gameObject.SetActive(false);
                 GameHelper.SignalBus.OnChangeUnlockPrice?.Invoke();
@@ -52,7 +55,7 @@ namespace DungeonMaster
 
         public void UnlockPriceUpdate()
         {
-            _priceText.text = TextHelper.MoneyTextConvert(GameHelper.UnlockPrice);
+            _priceText.text = TextHelper.MoneyTextConvert(UnlockerService.UnlockPrice);
         }
     }
 }

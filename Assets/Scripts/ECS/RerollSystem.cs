@@ -14,15 +14,16 @@ namespace DungeonMaster
         {
             foreach (var item in _filter)
             {
-                var rerollPrice = 
+                var price = 
                     _config.StartRerollPrice + 
                     _config.StartRerollPriceStep * _runtimeData.RerollCount;
 
-                if (GameHelper.TryBuy(rerollPrice))
+                if (GameHelper.CanBuy(price))
                 {
+                    GameHelper.Buy(price);
                     _runtimeData.RerollCount++;
                     _locationManager.Gym.Init();
-                    _signalBus.OnChangeRerollPrice?.Invoke(rerollPrice);
+                    _signalBus.OnChangeRerollPrice?.Invoke(price);
                 }
 
                 _filter.GetEntity(item).Del<RerollEvent>();

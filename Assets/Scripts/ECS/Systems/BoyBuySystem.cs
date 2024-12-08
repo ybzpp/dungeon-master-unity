@@ -16,8 +16,9 @@ namespace DungeonMaster
                 var price = _filter.Get1(item).Price;
                 if (_locationManager.Dungeon.Boys.Count < _config.PartyCount)
                 {
-                    if (GameHelper.TryBuy(price))
+                    if (GameHelper.CanBuy(price))
                     {
+                        GameHelper.Buy(price);
                         GameHelper.Gym.AddBoyToParty();
                         _filter.Get1(item).Popup.Hide();
                     }
