@@ -26,4 +26,11 @@
         Lose,
         Win,
     }
+
+    public enum GameStateResult
+    {
+        Continue,
+        Win,
+        Lose
+    }
 }
